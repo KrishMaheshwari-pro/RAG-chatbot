@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.venv
+venv/
+env/
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# Chroma DB
+chroma_db/
+
+# JetBrains
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Streamlit cache
+.streamlit
+
+# node
+node_modules/
+package-lock.json
+
+# Windows
+Thumbs.db
+
+# Other
+*.sqlite3
+*.db
