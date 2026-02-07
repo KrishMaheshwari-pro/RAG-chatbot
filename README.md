@@ -1,109 +1,146 @@
-# RAG Chatbot
+# [DOCS] RAG Chatbot
 
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/) [![Streamlit](https://img.shields.io/badge/Streamlit-1.29%2B-red)](https://streamlit.io/) [![ChromaDB](https://img.shields.io/badge/ChromaDB-0.4%2B-orange)](https://www.trychroma.com/)
+A Domain-Specific Retrieval-Augmented Generation (RAG) chatbot for document Q&A with citation-backed answers.
 
-A clean, production-ready Retrieval-Augmented Generation (RAG) chatbot for querying your documents with citation-backed answers.
+![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
+![LangChain](https://img.shields.io/badge/LangChain-0.1+-green.svg)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.29+-red.svg)
 
----
+## [FEATURE] Features
 
-## Key Features ✅
+- **[FILE] Multi-format Document Support**: PDF, PowerPoint, Markdown, Text files
+- **[SEARCH] Semantic Search**: Find relevant information using AI embeddings
+- **[CHAT] Citation-backed Answers**: Every response includes source references
+- **  Modern UI**: Beautiful dark-themed chat interface
+- **[SAVE] Persistent Storage**: Documents survive restarts with ChromaDB
+- **  Configurable**: Chunk size, top-k, model selection, and more
 
-- Multi-format document ingestion: **PDF**, **PPTX**, **Markdown**, **TXT**
-- Semantic search using sentence-transformer embeddings
-- Chat UI with **citation-backed answers** and source listings
-- Persistent vector storage (ChromaDB) — documents survive restarts
-- Configurable chunking, retrieval (top-K), and LLM provider options (OpenAI / Google / local)
-- Streamlit-based UI ready for local demos and prototyping
+## [ARCH] Architecture
 
----
-
-## Quick Start — Run locally (Windows)
-
-1. Clone or copy the repository into your workspace.
-
-2. Create and activate a virtual environment:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+```
+             
+   Documents      Chunker       Embeddings  
+  (PDF/PPTX)          (500 chars)          (MiniLM-L6)  
+             
+                                                 
+                                                 
+             
+    Answer          LLM          ChromaDB   
+  + Citations         (GPT-3.5)            (Vector DB)  
+             
 ```
 
-3. Install dependencies:
+## [RUN] Quick Start
 
-```powershell
+### 1. Clone & Setup
+
+```bash
+cd "d:\CODING\RAG Chatbot"
+
+# Create virtual environment
+python -m venv venv
+
+# Activate (Windows)
+.\venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-4. Configure environment variables:
+### 2. Configure API Key
 
-```powershell
+```bash
+# Copy example env file
 copy .env.example .env
-# Edit .env and set OPENAI_API_KEY or GOOGLE_API_KEY if using a cloud LLM provider
+
+# Edit .env and add your OpenAI API key
+# OPENAI_API_KEY=sk-your-key-here
 ```
 
-5. Start the Streamlit app:
+### 3. Run the App
 
-```powershell
+```bash
 streamlit run app.py
 ```
 
 Open http://localhost:8501 in your browser.
 
----
-
-## Project Structure
+## [DIR] Project Structure
 
 ```
-├─ app.py                 # Streamlit app
-├─ config.py              # Application configuration (env-driven)
-├─ requirements.txt       # Python dependencies
-├─ data/                  # Document storage (add files to data/documents/)
-├─ chroma_db/             # Persistent vector DB (auto-created)
-├─ src/                   # Core pipeline and helpers
-│  └─ pipeline.py         # Core ingestion, retrieval and query logic
-└─ README.md
+RAG Chatbot/
+  app.py                 # Streamlit main application
+  config.py              # Configuration settings
+  requirements.txt       # Dependencies
+  .env.example          # Environment template
+  data/
+      documents/        # Your documents go here
+      sample/           # Sample test documents
+  src/
+      document_loader.py # PDF/PPTX/MD loading
+      chunker.py        # Text splitting
+      embeddings.py     # Vector generation
+      vector_store.py   # ChromaDB operations
+      retriever.py      # Semantic search
+      generator.py      # LLM responses
+      pipeline.py       # RAG orchestration
+  evaluation/
+      metrics.py        # Evaluation metrics
+  chroma_db/            # Vector database (auto-created)
 ```
 
----
+##   Configuration
 
-## Configuration & Environment Variables
+Edit `config.py` to customize:
 
-Copy `.env.example` to `.env` and set any of the following as needed:
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `CHUNK_SIZE` | 500 | Characters per chunk |
+| `CHUNK_OVERLAP` | 50 | Overlap between chunks |
+| `EMBEDDING_MODEL` | all-MiniLM-L6-v2 | Sentence transformer model |
+| `TOP_K` | 5 | Retrieved chunks per query |
+| `OPENAI_MODEL` | gpt-3.5-turbo | LLM for generation |
 
-- OPENAI_API_KEY — OpenAI API key (optional)
-- GOOGLE_API_KEY — Google Gemini API key (optional)
-- USE_LOCAL_LLM — Set to `true` to use a local LLM (Ollama)
-- CHUNK_SIZE, CHUNK_OVERLAP — Text splitting settings
-- TOP_K — Number of retrieved chunks used to form context
+## [STATS] Evaluation
 
-See `config.py` for full defaults and notes.
+Run evaluation metrics:
 
----
+```python
+from evaluation.metrics import evaluate_retrieval, evaluate_answer_faithfulness
 
-## How it works (brief)
+# Evaluate retrieval quality
+metrics = evaluate_retrieval(
+    query="What is machine learning?",
+    retrieved_docs=results,
+    relevant_sources=["ml_chapter1.pdf"]
+)
+```
 
-1. Documents are ingested and split into chunks (configurable chunk size/overlap).
-2. Chunks are embedded with a sentence-transformer model and stored in ChromaDB.
-3. Queries retrieve the most relevant chunks, build a context, and ask a configured LLM to answer with source citations.
+## [CONFIG] Development
 
----
+### Adding New Document Types
 
-## Development & Contributing
+1. Create loader function in `src/document_loader.py`
+2. Add to `LOADER_MAP` dictionary
+3. Test with sample document
 
-- Add new document loaders or LLM adapters inside `src/` and add tests.
-- Keep changes small and focused — use one logical change per commit.
-- Open issues for bugs or feature requests.
+### Using Local LLM (Ollama)
 
-If you want me to help push this repository to GitHub and create incremental commits to grow your contribution graph, tell me and I will proceed.
+1. Install [Ollama](https://ollama.ai)
+2. Pull a model: `ollama pull llama2`
+3. Set in `.env`:
+   ```
+   USE_LOCAL_LLM=true
+   OLLAMA_MODEL=llama2
+   ```
 
----
+## [NOTE] License
 
-## License
+MIT License - feel free to use for learning and projects!
 
-MIT License — see `LICENSE` (or add one) for full terms.
+## [THANKS] Acknowledgments
 
----
-
-## Acknowledgements
-
-Built with: LangChain, ChromaDB, Streamlit, and Sentence-Transformers.
+- [LangChain](https://langchain.com) - LLM framework
+- [ChromaDB](https://trychroma.com) - Vector database
+- [Streamlit](https://streamlit.io) - Web UI framework
+- [Sentence-Transformers](https://sbert.net) - Embeddings

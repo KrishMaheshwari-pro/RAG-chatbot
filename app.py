@@ -13,7 +13,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import APP_TITLE, APP_DESCRIPTION, DOCUMENTS_DIR
-from src.pipeline import get_pipeline
+from pipeline import get_pipeline
 
 
 # =============================================================================
@@ -27,15 +27,113 @@ st.set_page_config(
 )
 
 # =============================================================================
-# CUSTOM CSS (DISABLED FOR DEBUGGING)
+# CUSTOM CSS
 # =============================================================================
-# Temporarily disable custom CSS to diagnose blank UI issues. Uncomment the block below
-# to restore styling once issue is resolved.
-# st.markdown("""
-# <style>
-#     /* Custom styles removed for debugging */
-# </style>
-# """, unsafe_allow_html=True)
+st.markdown("""
+<style>
+    /* Main container */
+    .main {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    /* Chat message styling */
+    .stChatMessage {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* User message */
+    [data-testid="stChatMessageContent"] {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    /* Citation box */
+    .citation-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .citation-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+    }
+    
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+    }
+    
+    /* Button styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Stats cards */
+    .stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    /* Header gradient text */
+    .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+    }
+    
+    /* File uploader */
+    [data-testid="stFileUploader"] {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1rem;
+        border: 2px dashed rgba(102, 126, 234, 0.5);
+    }
+    
+    /* Success/warning messages */
+    .stSuccess, .stWarning, .stError {
+        border-radius: 10px;
+    }
+    
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
 
 
 # =============================================================================

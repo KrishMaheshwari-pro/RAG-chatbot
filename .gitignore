@@ -1,39 +1,55 @@
-# Python
-__pycache__/
-*.py[cod]
-*.so
-*.egg-info/
-.venv
+# Virtual environments
+.venv/
 venv/
 env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment
 .env
-.env.*
+.env.local
+.env.*.local
 
-# VSCode
-.vscode/
-
-# Chroma DB
+# Database
+*.db
+*.sqlite
+*.sqlite3
 chroma_db/
 
-# JetBrains
+# IDE
+.vscode/
 .idea/
-
-# macOS
+*.swp
+*.swo
+*~
 .DS_Store
+
+# Data
+data/documents/
+uploads/
 
 # Logs
 *.log
-
-# Streamlit cache
-.streamlit
-
-# node
-node_modules/
-package-lock.json
-
-# Windows
-Thumbs.db
-
-# Other
-*.sqlite3
-*.db
+logs/
