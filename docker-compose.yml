@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  rag-chatbot:
+    build: .
+    container_name: rag-chatbot
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db
+    environment:
+      - STREAMLIT_SERVER_HEADLESS=true
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
