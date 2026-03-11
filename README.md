@@ -11,6 +11,7 @@ A Domain-Specific Retrieval-Augmented Generation (RAG) chatbot for document Q&A 
 - **[FILE] Multi-format Document Support**: PDF, PowerPoint, Markdown, Text files
 - **[SEARCH] Semantic Search**: Find relevant information using AI embeddings
 - **[CHAT] Citation-backed Answers**: Every response includes source references
+- **[VERSION] Build info**: UI sidebar now shows the git commit/ version
 - **  Modern UI**: Beautiful dark-themed chat interface
 - **[SAVE] Persistent Storage**: Documents survive restarts with ChromaDB
 - **  Configurable**: Chunk size, top-k, model selection, and more

@@ -81,3 +81,18 @@ COLLECTION_NAME = "rag_documents"
 # =============================================================================
 APP_TITLE = "RAG Chatbot"
 APP_DESCRIPTION = "Ask questions about your documents and get citation-backed answers!"
+
+# =============================================================================
+# VERSION INFO
+# =============================================================================
+try:
+    import subprocess
+    _git_desc = subprocess.check_output(
+        ["git", "rev-parse", "--short", "HEAD"],
+        cwd=str(BASE_DIR)
+    ).decode().strip()
+except Exception:
+    _git_desc = "unknown"
+
+VERSION = os.getenv("APP_VERSION", _git_desc)
+

@@ -12,7 +12,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent))
 
-from config import APP_TITLE, APP_DESCRIPTION, DOCUMENTS_DIR
+from config import APP_TITLE, APP_DESCRIPTION, DOCUMENTS_DIR, VERSION
 from pipeline import get_pipeline
 
 
@@ -157,6 +157,7 @@ if "documents_ingested" not in st.session_state:
 with st.sidebar:
     st.markdown(f"# {APP_TITLE}")
     st.markdown(f"*{APP_DESCRIPTION}*")
+    st.markdown(f"**Version:** {VERSION}")
     st.markdown("---")
     
     # Stats

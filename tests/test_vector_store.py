@@ -16,17 +16,21 @@ def test_vector_store_creation():
 def test_add_documents():
     """Test adding documents to vector store"""
     store = get_vector_store()
+    # clear any existing data so the test is idempotent
+    store.clear()
     docs = [
         Document(page_content="Test document 1", metadata={"source": "test.txt"}),
         Document(page_content="Test document 2", metadata={"source": "test.txt"})
     ]
     result = store.add_documents(docs)
-    assert result is not None
+    assert result == len(docs)
+    stats = store.get_stats()
+    assert stats["document_count"] == len(docs)
 
 
-def test_similarity_search():
-    """Test semantic search functionality"""
+def test_query_method():
+    """Test semantic search functionality uses `query` API"""
     store = get_vector_store()
     query = "test query"
-    results = store.similarity_search(query, k=1)
+    results = store.query(query, top_k=1)
     assert isinstance(results, list)
